@@ -8,7 +8,7 @@ This crate provides a CLI to pixelate your supplied image.
 cargo install pixelize
 ```
 
-## Example
+## Usage
 
 ```
 pixelize -i girl.jpg -o girl_10.jpg -d 10
@@ -16,12 +16,10 @@ pixelize -i girl.jpg -o girl_10.jpg -d 10
 
 Before:
 
-![Before](./girl.jpg)
+| Original              | -d 10                         |
+| --------------------- | ----------------------------- |
+| ![Before](./girl.jpg) | ![After @ 10d](./girl_10.jpg) |
 
-After (10d, 20d, 50d):
-
-![After](./girl_10.jpg)
-
-![After](./girl_20.jpg)
-
-![After](./girl_50.jpg)
+| -d 20                         | d - 50                      |
+| ----------------------------- | --------------------------- |
+| ![After @ 20d](./girl_20.jpg) | ![After 50d](./girl_50.jpg) |

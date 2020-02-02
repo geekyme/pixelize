@@ -2,7 +2,7 @@ extern crate clap;
 extern crate image;
 use clap::{App, Arg};
 
-use image::{GenericImageView, ImageBuffer, RgbaImage};
+use image::{imageops, FilterType, GenericImageView, ImageBuffer, RgbaImage};
 
 const PARAM_IN: &str = "in";
 const PARAM_OUT: &str = "out";
@@ -63,6 +63,8 @@ fn main() {
             out.put_pixel(x, y, p);
         }
     }
+
+    out = imageops::resize(&out, w, h, FilterType::Nearest);
 
     match out.save(out_file) {
         Ok(_) => println!(
