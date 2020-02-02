@@ -14,8 +14,6 @@ cargo install pixelize
 pixelize -i girl.jpg -o girl_10.jpg -d 10
 ```
 
-Before:
-
 | Original              | -d 10                         |
 | --------------------- | ----------------------------- |
 | ![Before](./girl.jpg) | ![After @ 10d](./girl_10.jpg) |
