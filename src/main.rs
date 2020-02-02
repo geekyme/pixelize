@@ -54,6 +54,11 @@ fn main() {
         std::process::exit(1);
     }
 
+    if d_u32 <= 1 {
+        eprintln!("degree needs to be > 1!");
+        std::process::exit(1);
+    }
+
     let mut out: RgbaImage = ImageBuffer::new(w / d_u32, h / d_u32);
     let (new_w, new_h) = out.dimensions();
 
