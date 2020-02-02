@@ -18,7 +18,7 @@ fn main() {
                 .short("i")
                 .long(PARAM_IN)
                 .value_name("FILE")
-                .help("Sets a input image file")
+                .help("Path to input image file")
                 .required(true),
         )
         .arg(
@@ -26,7 +26,7 @@ fn main() {
                 .short("o")
                 .long(PARAM_OUT)
                 .value_name("FILE")
-                .help("Sets a output image file")
+                .help("Path to output image file")
                 .required(true),
         )
         .arg(
@@ -34,7 +34,7 @@ fn main() {
                 .short("d")
                 .long(PARAM_DEGREE)
                 .value_name("NUMBER")
-                .help("Sets degree pf pixelation. The higher this number, the more pixelated")
+                .help("Sets degree of pixelation. The higher this number, the more pixelated your image will be")
                 .required(true),
         )
         .get_matches();
