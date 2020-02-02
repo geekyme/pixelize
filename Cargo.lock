@@ -292,7 +292,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "pixeltask"
+name = "pixelize"
 version = "0.1.0"
 dependencies = [
  "clap",
