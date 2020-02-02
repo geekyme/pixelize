@@ -49,6 +49,11 @@ fn main() {
     let img = image::open(in_file).unwrap();
     let (w, h) = img.dimensions();
 
+    if d_u32 >= w || d_u32 >= h {
+        eprintln!("degree cannot exceed the dimensions of the image!");
+        std::process::exit(1);
+    }
+
     let mut out: RgbaImage = ImageBuffer::new(w / d_u32, h / d_u32);
     let (new_w, new_h) = out.dimensions();
 
@@ -59,5 +64,11 @@ fn main() {
         }
     }
 
-    out.save(out_file).unwrap();
+    match out.save(out_file) {
+        Ok(_) => println!(
+            "{} pixelated with degree {} and saved to {}",
+            in_file, d_u32, out_file
+        ),
+        Err(e) => eprintln!("Error pixelating your image: {}", e),
+    }
 }
