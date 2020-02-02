@@ -1,4 +1,4 @@
-# Pixelize [![crates.io](https://img.shields.io/crates/v/[pixelize].svg)](https://crates.io/crates/pixelize)
+# Pixelize [![crates.io](https://img.shields.io/crates/v/pixelize.svg)](https://crates.io/crates/pixelize)
 
 This crate provides a CLI tool to pixelate your supplied image.
 
