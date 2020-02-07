@@ -29,7 +29,7 @@ pixelize -i girl.jpg -o girl_10.jpg -d 10
 
 ```
 [dependencies]
-pixelize = "0.2.0"
+pixelize = "<version>"
 ```
 
 ## Lib Usage
