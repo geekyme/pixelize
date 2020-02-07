@@ -2,7 +2,9 @@ extern crate clap;
 extern crate image;
 use clap::{App, Arg};
 
-use image::{imageops, FilterType, GenericImageView, ImageBuffer, RgbaImage};
+use image::{imageops, FilterType, GenericImageView, ImageBuffer, ImageError, RgbaImage};
+use std::fs;
+use std::io::Cursor;
 
 const PARAM_IN: &str = "in";
 const PARAM_OUT: &str = "out";
@@ -41,41 +43,51 @@ fn main() {
 
     let in_file = matches.value_of(PARAM_IN).unwrap();
     let out_file = matches.value_of(PARAM_OUT).unwrap();
-    let d_u32 = matches
+    let d = matches
         .value_of(PARAM_DEGREE)
         .unwrap()
         .parse::<u32>()
         .unwrap();
-    let img = image::open(in_file).unwrap();
+    let buf = fs::read(in_file).unwrap();
+
+    let out = pixelize(buf.as_slice(), d).unwrap();
+
+    match out.save(out_file) {
+        Ok(_) => println!(
+            "{} pixelated with degree {} and saved to {}",
+            in_file, d, out_file
+        ),
+        Err(e) => panic!("Error pixelating your image: {}", e),
+    }
+}
+
+fn pixelize(buf: &[u8], d: u32) -> Result<RgbaImage, ImageError> {
+    let format = image::guess_format(buf)?;
+    let c = Cursor::new(buf);
+    let img = image::load(c, format).unwrap();
     let (w, h) = img.dimensions();
-
-    if d_u32 >= w || d_u32 >= h {
-        eprintln!("degree cannot exceed the dimensions of the image!");
-        std::process::exit(1);
+    if d >= w || d >= h {
+        return Err(ImageError::UnsupportedError(String::from(
+            "degree cannot exceed the dimensions of the image!",
+        )));
     }
 
-    if d_u32 <= 1 {
-        eprintln!("degree needs to be > 1!");
-        std::process::exit(1);
+    if d <= 1 {
+        return Err(ImageError::UnsupportedError(String::from(
+            "degree needs to be > 1!",
+        )));
     }
 
-    let mut out: RgbaImage = ImageBuffer::new(w / d_u32, h / d_u32);
+    let mut out: RgbaImage = ImageBuffer::new(w / d, h / d);
     let (new_w, new_h) = out.dimensions();
-
     for x in 0..new_w {
         for y in 0..new_h {
-            let p = img.get_pixel(x * d_u32, y * d_u32);
+            let p = img.get_pixel(x * d, y * d);
             out.put_pixel(x, y, p);
         }
     }
 
     out = imageops::resize(&out, w, h, FilterType::Nearest);
 
-    match out.save(out_file) {
-        Ok(_) => println!(
-            "{} pixelated with degree {} and saved to {}",
-            in_file, d_u32, out_file
-        ),
-        Err(e) => eprintln!("Error pixelating your image: {}", e),
-    }
+    return Ok(out);
 }
