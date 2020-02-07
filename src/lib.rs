@@ -1,5 +1,3 @@
-extern crate image;
-
 use image::{imageops, FilterType, GenericImageView, ImageBuffer, ImageError, RgbaImage};
 use std::io::Cursor;
 
